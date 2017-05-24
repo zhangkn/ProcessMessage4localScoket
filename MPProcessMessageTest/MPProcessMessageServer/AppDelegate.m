@@ -26,10 +26,34 @@
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
 }
 
+UIBackgroundTaskIdentifier taskId;
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    
+    //开启一个后台任务
+    taskId = [application beginBackgroundTaskWithExpirationHandler:^{
+        //结束指定的任务
+        [application endBackgroundTask:taskId];
+    }];
+    
+    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerWork:) userInfo:nil repeats:YES];
+}
+
+- (void)timerWork:(NSTimer *)timer {
+    static int count = 0;
+    count++;
+    
+    if (count % 500 == 0) {
+        UIApplication *application = [UIApplication sharedApplication];
+        //结束旧的后台任务
+        [application endBackgroundTask:taskId];
+        
+        //开启一个新的后台
+        taskId = [application beginBackgroundTaskWithExpirationHandler:NULL];
+    }
+    NSLog(@"%d",count)
 }
 
 
