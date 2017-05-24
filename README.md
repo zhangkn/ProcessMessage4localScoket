@@ -89,9 +89,9 @@
 ### 创建客户端
 ```objc
     //初始化socket，这里有两种方式。分别为是主/子线程中运行socket。根据项目不同而定
-//这种是在主线程中运行
+    //最好都放在在子线程中调用
    GCDAsyncSocket * clientSocket = [[GCDAsyncSocket alloc] initWithDelegate:self
-                                                              delegateQueue:dispatch_get_main_queue()];
+                                                              delegateQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)];
     //开始连接
     NSError *error = nil;
     if (![clientSocket connectToHost:host onPort:port error:&error])
