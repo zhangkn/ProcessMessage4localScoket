@@ -4,6 +4,7 @@
 ## Usage scenario 使用场景
 * 多个App之间的数据传输
 * App与网页之间的数据传输
+* 示例：微信，试客小兵，淘宝等都有采用此种方案。
 
 ## Description 描述
 * 采用Local Socket方案（TCP）创建服务端和客户端从而达到通讯效果。
